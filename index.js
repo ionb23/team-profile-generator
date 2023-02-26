@@ -1,6 +1,7 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+// const Employee = require("./lib/Employee");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -10,8 +11,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
-
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+const employees = [];
 // Pseudo code from Dan Mueller (instructor) from class
 
 inquirer.prompt([
@@ -32,13 +33,15 @@ inquirer.prompt([
         message: "What is the team manager's email?",
     },
     {
-        type: 'input',
+        type: 'number',
         name: 'officeNumber',
         message: "What is the team manager's office number?",
     },
 ]).then(response => {
+    console.log(response);
     // populate manager info
-    // promptForNextEmployee ()
+    employees.push(new Manager(response.name, response.id, response.email, response.officeNumber));
+    promptForNextEmployee();
 })
 
 const promptForNextEmployee = () => {
@@ -61,6 +64,17 @@ const promptForNextEmployee = () => {
         //    promptForIntern
         // else
         //    use the functionality from page-template to generate the team
+        // console.log(response.newTeamMemberType);
+        if (response.newTeamMemberType === 'Engineer') {
+            console.log(response.newTeamMemberType);
+            promptForEngineer();
+        } else if (response.newTeamMemberType === 'Intern') {
+            console.log(response.newTeamMemberType);
+            promptForIntern();
+        } else {
+            console.log(response.newTeamMemberType);
+            buildPage();
+        }
     })
 }
 
@@ -89,7 +103,8 @@ const promptForEngineer = () => {
         },
     ]).then(response => {
         // add new engineer to employees array
-        // promptForNextEmployee
+        employees.push(new Engineer(response.name, response.id, response.email, response.github));
+        promptForNextEmployee();
     })
 }
 
@@ -118,10 +133,25 @@ const promptForIntern = () => {
         },
     ]).then(response => {
         // add new intern to employees array
-        // promptForNextEmployee
+        employees.push(new Intern(response.name, response.id, response.email, response.school));
+        promptForNextEmployee();
     })
 }
 
 const buildPage = () => {
-    // render(myArrayOfTeamMembers)
+    console.log(employees);
+    // console.log(render(employees));
+    fs.writeFile('team.html', render(employees), (error) =>
+        error ? console.log(error) : console.log("You have successfully generated a new team.html file with the given information!")
+    );
+
+    // const testArray = [];
+    // testArray.push(new Manager ("Dan",1,"manager@gmail.com",17));
+    // testArray.push(new Employee ("Den",2,"employee@gmail.com"));
+    // testArray.push(new Engineer ("Don",3,"engineer@gmail.com","myGithubhehe"));
+    // testArray.push(new Intern ("Dan",4,"intern@gmail.com","scholhihi"));
+    // console.log(render(testArray));
+
 }
+
+// buildPage();
