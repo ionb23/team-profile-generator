@@ -1,21 +1,21 @@
 {
-  "name": "challenge-12-team-profile-generator",
+  "name": "team_html_page_generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "A nodeJS application that generates an HTML page for a team of engineers and interns",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ionb23/team-profile-generator.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Ion",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ionb23/team-profile-generator/issues"
   },
